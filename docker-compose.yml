@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  dashboardtoken:
+    build: .
+    container_name: dashboardtoken
+    ports:
+      - "8089:80"
+    volumes:
+      - ./html:/var/www/html
+    depends_on:
+      - postgres
+    networks:
+      - dashboard_net
+
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_DB: dashboard
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - dashboard_net
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    networks:
+      - dashboard_net
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+volumes:
+  pgdata:
+  pgadmin_data:
+
+networks:
+  dashboard_net:
+    driver: bridge

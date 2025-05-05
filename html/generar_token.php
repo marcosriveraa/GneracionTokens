@@ -2,6 +2,9 @@
 include 'conexion.php';
 $pdo = getDB();
 
+// Establecer la zona horaria a Madrid
+date_default_timezone_set('Europe/Madrid');
+
 $data = json_decode(file_get_contents("php://input"), true);
 
 $tipoToken = strtoupper($data['tipo']);  // Lo ponemos en mayúsculas por seguridad
@@ -16,9 +19,12 @@ if (empty($tipoToken) || empty($entidadId) || empty($token)) {
 }
 
 try {
+    // Obtener la fecha y hora actuales en formato completo (YYYY-MM-DD HH:MM:SS)
+    $fechaCreacion = date('Y-m-d H:i:s');
+
     $sql = "
         INSERT INTO token (tipo_token, id_entidad, token, fecha_creacion, fecha_expiracion, usos_maximos, usos_restantes)
-        VALUES (:tipo_token, :id_entidad, :token, NOW(), :fecha_expiracion, :usos_maximos, :usos_restantes)
+        VALUES (:tipo_token, :id_entidad, :token, :fecha_creacion, :fecha_expiracion, :usos_maximos, :usos_restantes)
     ";
 
     // Solo guardamos usos y fecha si es finito
@@ -37,6 +43,7 @@ try {
         ':tipo_token' => $tipoToken,
         ':id_entidad' => $entidadId,
         ':token' => $token,
+        ':fecha_creacion' => $fechaCreacion,  // Guardar fecha y hora completas
         ':fecha_expiracion' => $expiracion,
         ':usos_maximos' => $usosMaximos,
         ':usos_restantes' => $usosRestantes

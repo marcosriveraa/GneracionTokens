@@ -708,7 +708,7 @@ if (!isset($_SESSION['usuario'])) {
               <input type="number" class="form-control" id="numeroUsos" placeholder="Ej. 5" min="1" />
             </div>
             <div class="mb-3">
-              <label for="fechaExpiracion" class="form-label">Fecha de Expiración</label>
+              <label for="fechaExpiracion" class="form-label" id="labelfecha">Fecha de Expiración</label>
               <input type="date" class="form-control" id="fechaExpiracion" />
             </div>
           </div>
@@ -1701,6 +1701,13 @@ function cargarTabla() {
   fetch(`buscar_entidades.php?tipo=${tipo}`)
     .then(response => response.json())
     .then(entidades => {
+      console.log('Respuesta del servidor:', entidades); // Imprimir la respuesta
+
+      if (!Array.isArray(entidades)) {
+        console.error('La respuesta no es un array:', entidades);
+        return;
+      }
+
       if (!dataTable) {
         dataTable = new DataTable("#tablaEntidades", {
           language: {
@@ -1713,10 +1720,7 @@ function cargarTabla() {
 
       dataTable.clear();
       entidades.forEach(e => {
-        // Crear el botón de generar token
         const button = `<button class="btn btn-primary" onclick="mostrarModalGenerarToken('${e.id}')">Generar Token</button>`;
-
-        // Añadir la fila con el botón
         dataTable.row.add([e.id, e.nombre, button]);
       });
       dataTable.draw();
@@ -1726,6 +1730,7 @@ function cargarTabla() {
     });
 }
 
+
 function mostrarModalGenerarToken(entidadId) {
   // Mostrar el modal
   const modal = new bootstrap.Modal(document.getElementById('modalGenerarToken'));
@@ -1734,7 +1739,7 @@ function mostrarModalGenerarToken(entidadId) {
   // Limpiar el formulario y esconder las opciones de finito
   document.getElementById("formGenerarToken").reset();
   document.getElementById("finitoOptions").style.display = "none";  // Escondemos el grupo de opciones finito
-
+  document.getElementById("fechaExpiracion").style.display = "block"; // Aseguramos que el input de fecha se muestre inicialmente
   // Guardar el ID de la entidad en el formulario
   document.getElementById("formGenerarToken").onsubmit = function (event) {
     event.preventDefault();
@@ -1747,17 +1752,35 @@ function mostrarModalGenerarToken(entidadId) {
 
     if (tipoToken === "finito_uso" || tipoToken === "finito_mensual") {
       document.getElementById("finitoOptions").style.display = "block";  // Mostrar las opciones finitas (número de usos y fecha)
+      // Si el tipo de token es "finito_mensual", ocultamos el campo de fecha
+      if (tipoToken === "finito_mensual") {
+        document.getElementById("fechaExpiracion").style.display = "none";
+        document.getElementById("labelfecha").style.display = "none";
+      } else {
+        document.getElementById("fechaExpiracion").style.display = "block"; // Aseguramos que el input de fecha se muestre en "finito_uso"
+      }
     } else {
       document.getElementById("finitoOptions").style.display = "none";  // Ocultar las opciones finitas
     }
   };
+
+  cargarTokens(); // Cargar los tokens existentes al abrir el modal
 }
+
+
 
 
 function generarToken(entidadId) {
   const tipoToken = document.getElementById("tipoToken").value.toUpperCase();  // Ahora es FINITO_USO, FINITO_MENSUAL, INFINITO
   const numeroUsos = document.getElementById("numeroUsos").value;
-  const fechaExpiracion = document.getElementById("fechaExpiracion").value;
+  let fechaExpiracion = document.getElementById("fechaExpiracion").value;
+
+  // Si es "FINITO_MENSUAL", calculamos la fecha de expiración añadiendo 30 días
+  if (tipoToken === "FINITO_MENSUAL") {
+    const fechaHoy = new Date();
+    fechaHoy.setDate(fechaHoy.getDate() + 30);  // Añadimos 30 días a la fecha actual
+    fechaExpiracion = fechaHoy.toISOString().split('T')[0]; // Solo la parte de la fecha (YYYY-MM-DD)
+  }
 
   const tokenAleatorio = Math.random().toString(36).substring(2) + Date.now().toString(36);
   const tokenSHA256 = CryptoJS.SHA256(tokenAleatorio).toString(CryptoJS.enc.Base64);
@@ -1767,7 +1790,7 @@ function generarToken(entidadId) {
     entidad_id: entidadId,
     token: tokenSHA256,
     numero_uso: (tipoToken === "FINITO_USO" || tipoToken === "FINITO_MENSUAL") ? numeroUsos : null,
-    fecha_expiracion: (tipoToken === "FINITO_USO" || tipoToken === "FINITO_MENSUAL") ? fechaExpiracion : null
+    fecha_expiracion: fechaExpiracion // Aquí se envía la fecha calculada si es "FINITO_MENSUAL"
   };
 
   fetch('generar_token.php', {
@@ -1778,13 +1801,15 @@ function generarToken(entidadId) {
   .then(response => response.json())
   .then(response => {
     alert(response.message);
-    cargarTabla();
-    const modal = bootstrap.Modal.getInstance(document.getElementById('modalGenerarToken'));
+    const modal =bootstrap.Modal.getInstance(document.getElementById('modalGenerarToken'));
     modal.hide();
+    cargarTabla();
   })
   .catch(error => {
     console.error("Error generando el token:", error);
   });
+  
+  cargarTokens(); // Cargar los tokens después de generar uno nuevo
 }
 
 

@@ -8,29 +8,29 @@ try {
 
     switch ($tipo) {
         case 'usuarios':
-            // Seleccionar usuarios que no tienen token
-            $query = $pdo->prepare("SELECT id, nombre FROM usuario WHERE id NOT IN (SELECT id_entidad FROM token)");
+            // Seleccionar usuarios
+            $query = $pdo->prepare("SELECT id, nombre FROM usuario");
             $query->execute();
             $entidades = $query->fetchAll(PDO::FETCH_ASSOC);
             break;
 
         case 'empresas':
-            // Seleccionar empresas que no tienen token
-            $query = $pdo->prepare("SELECT id, nombre FROM empresa WHERE id NOT IN (SELECT id_entidad FROM token)");
+            // Seleccionar empresas
+            $query = $pdo->prepare("SELECT id, nombre FROM empresa");
             $query->execute();
             $entidades = $query->fetchAll(PDO::FETCH_ASSOC);
             break;
 
         case 'grupos':
-            // Seleccionar grupos que no tienen token
-            $query = $pdo->prepare("SELECT id, nombre FROM grupo WHERE id NOT IN (SELECT id_entidad FROM token)");
+            // Seleccionar grupos
+            $query = $pdo->prepare("SELECT id, nombre FROM grupo");
             $query->execute();
             $entidades = $query->fetchAll(PDO::FETCH_ASSOC);
             break;
 
         case 'aplicaciones':
-            // Seleccionar aplicaciones que no tienen token
-            $query = $pdo->prepare("SELECT uuid as id, nombre FROM aplicacion WHERE uuid NOT IN (SELECT id_entidad FROM token)");
+            // Seleccionar aplicaciones
+            $query = $pdo->prepare("SELECT uuid as id, nombre FROM aplicacion");
             $query->execute();
             $entidades = $query->fetchAll(PDO::FETCH_ASSOC);
             break;

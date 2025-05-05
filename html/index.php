@@ -156,9 +156,10 @@ if (!isset($_SESSION['usuario'])) {
     <p class="text-center">Aquí puedes gestionar las aplicaciones.</p>
     <div id="alertContainer"></div>
     <!-- Botón para añadir una nueva aplicación -->
-    <button class="btn btn-primary btn-add" data-bs-toggle="modal" data-bs-target="#addAppModal">
-      <i class="bi bi-plus-circle me-2"></i> Añadir Aplicación
-    </button>
+    <button class="btn" style="background-color: #791317; color: white;" data-bs-toggle="modal" data-bs-target="#addAppModal">
+  <i class="bi bi-plus-circle me-2 padding: 5px; border-radius: 50%;"></i> Añadir Aplicación
+</button>
+
     <!-- Tabla para DataTable -->
     <table id="appTable" class="display" cellspacing="0" width="100%">
       <thead>
@@ -190,9 +191,11 @@ if (!isset($_SESSION['usuario'])) {
             </select>
         </div>
 -->
-        <button class="btn btn-primary btn-add" data-bs-toggle="modal" data-bs-target="#buscadorModal">
-      <i class="bi bi-plus-circle me-2"></i> Generar Token
-    </button>
+<button class="btn btn-add" data-bs-toggle="modal" data-bs-target="#buscadorModal" style="background-color: #791317; color: white;">
+  <i class="bi bi-plus-circle me-2" padding: 5px; border-radius: 50%;></i> Generar Token
+</button>
+
+
         <!-- DataTable para mostrar los tokens u otros datos -->
         <table id="tokenTable" class="table table-bordered">
             <thead>
@@ -217,7 +220,7 @@ if (!isset($_SESSION['usuario'])) {
 <div class="modal fade" id="buscadorModal" tabindex="-1" aria-labelledby="buscadorModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content shadow-lg rounded-4">
-      <div class="modal-header bg-primary text-white">
+      <div class="modal-header text-white" style="background-color: #791317;">
         <h5 class="modal-title" id="buscadorModalLabel"><i class="bi bi-search"></i> Buscar Entidades</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
@@ -266,9 +269,10 @@ if (!isset($_SESSION['usuario'])) {
         <p class="text-center">Aquí puedes gestionar los grupos de usuarios.</p>
         <div id="alertContainer2"></div>
         <!-- Botón para añadir un nuevo grupo -->
-        <button class="btn btn-primary btn-add" data-bs-toggle="modal" data-bs-target="#addGroupModal">
-            <i class="bi bi-plus-circle me-2"></i> Añadir Grupo
-        </button>
+        <button class="btn btn-add" style="background-color: #791317; color: white;" data-bs-toggle="modal" data-bs-target="#addGroupModal">
+  <i class="bi bi-plus-circle me-2"></i> Añadir Grupo
+</button>
+
 
         <!-- Tabla para mostrar los grupos -->
         <table id="groupTable" class="display" cellspacing="0" width="100%">
@@ -292,9 +296,10 @@ if (!isset($_SESSION['usuario'])) {
         <h2 class="text-center">Usuarios</h2>
         <p class="text-center">Aquí puedes gestionar los usuarios.</p>
         <div id="alertContainer3"></div>
-        <button class="btn btn-primary btn-add" data-bs-toggle="modal" data-bs-target="#addUsuario">
-            <i class="bi bi-plus-circle me-2"></i> Añadir Usuario
-        </button>
+        <button class="btn btn-add" style="background-color: #791317; color: white;" data-bs-toggle="modal" data-bs-target="#addUsuario">
+  <i class="bi bi-plus-circle me-2"></i> Añadir Usuario
+</button>
+
         <!-- Tabla para mostrar los usuarios -->
         <table id="usersTable" class="display" cellspacing="0" width="100%">
             <thead>
@@ -320,9 +325,10 @@ if (!isset($_SESSION['usuario'])) {
   <div class="container">
 <h2 class="text-center">Empresas</h2>
 <p class="text-center">Aquí puedes gestionar las empresas</p>
-<button class="btn btn-primary btn-add" data-bs-toggle="modal" data-bs-target="#addEmpresaModal">
-            <i class="bi bi-plus-circle me-2"></i> Añadir Empresa
-        </button>
+<button class="btn btn-add" style="background-color: #791317; color: white;" data-bs-toggle="modal" data-bs-target="#addEmpresaModal">
+  <i class="bi bi-plus-circle me-2"></i> Añadir Empresa
+</button>
+
 <table id="empresatable" class="display" cellspacing="0" width="100%">
             <thead>
                 <tr>
@@ -370,7 +376,7 @@ if (!isset($_SESSION['usuario'])) {
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Guardar Empresa</button>
+                    <button type="submit" class="btn" style="background-color: #791317; color: white;">Guardar Empresa</button>
                 </div>
             </div>
         </form>
@@ -432,7 +438,8 @@ if (!isset($_SESSION['usuario'])) {
               <label for="nombre" class="form-label">Nombre de la Aplicación</label>
               <input type="text" class="form-control" id="nombre" name="nombre" required>
             </div>
-            <button type="submit" class="btn btn-primary">Añadir Aplicación</button>
+            <button type="submit" class="btn" style="background-color: #791317; color: white;">Añadir Aplicación</button>
+
           </form>
         </div>
       </div>
@@ -485,7 +492,8 @@ if (!isset($_SESSION['usuario'])) {
               <!-- Opciones de grupos cargadas dinámicamente -->
             </select>
           </div>
-          <button type="submit" class="btn btn-primary">Añadir Usuario</button>
+          <button type="submit" class="btn" style="background-color: #791317; color: white;">Añadir Usuario</button>
+
         </form>
       </div>
       <div class="modal-footer">
@@ -516,7 +524,7 @@ if (!isset($_SESSION['usuario'])) {
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="submit" class="btn btn-primary">Guardar Grupo</button>
+          <button type="submit" class="btn" style="background-color: #791317; color: white;">Guardar Grupo</button>          
         </div>
       </form>
     </div>
@@ -712,7 +720,7 @@ if (!isset($_SESSION['usuario'])) {
               <input type="date" class="form-control" id="fechaExpiracion" />
             </div>
           </div>
-          <button type="submit" class="btn btn-primary">Generar Token</button>
+          <button type="submit" class="btn" style="background-color: #791317; color: white;">Generar Token</button>
         </form>
       </div>
     </div>
@@ -1383,6 +1391,7 @@ $(document).ready(function() {
     recargarDataTableGrupo();
     recargarDataTableUsuarios();
     recargarDataTableEmpresas();
+    cargarTabla();
 });
 
 document.getElementById('formAddEmpresa').addEventListener('submit', function(event) {
@@ -1720,7 +1729,7 @@ function cargarTabla() {
 
       dataTable.clear();
       entidades.forEach(e => {
-        const button = `<button class="btn btn-primary" onclick="mostrarModalGenerarToken('${e.id}')">Generar Token</button>`;
+        const button = `<button class="btn" style="background-color: #791317; color: white;" onclick="mostrarModalGenerarToken('${e.id}')">Generar Token</button>`;
         dataTable.row.add([e.id, e.nombre, button]);
       });
       dataTable.draw();
